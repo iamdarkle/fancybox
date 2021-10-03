@@ -1,0 +1,41 @@
+{
+    "name": "darkle/fancybox",
+    "description": "Enables Fancybox on all images",
+    "type": "flarum-extension",
+    "keywords": ["flarum","images","fancybox"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Darkle",
+            "email": "tomasromero@outlook.com",
+        },
+        {
+            "name": "Mark Cutting",
+            "homepage": "https://phenomlab.com",
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/iamdarkle/fancybox/issues",
+        "source": "https://github.com/iamdarkle/fancybox",
+        "forum": "https://discuss.flarum.org"
+    },
+    "require": {
+        "flarum/core": "^1.0.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "darkle\\fancybox\\": "src/"
+        }
+    },
+    "extra": {
+        "flarum-extension": {
+            "title": "Fancybox",
+            "category": "feature",
+            "icon": {
+                "name": "fas fa-images",
+                "backgroundColor": "#00c8b0",
+                "color": "#fff"
+            }
+        }
+    }
+}
