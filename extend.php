@@ -16,8 +16,8 @@ use Flarum\Frontend\Document;
 return [
     (new Extend\Frontend('forum'))
         ->content(function (Document $document) {
-            $document->head[] = '<script defer type="text/javascript" src="dist/jquery.fancybox.min.js"></script>';
-            $document->head[] = '<link rel="preload" as="style" href="dist/jquery.fancybox.min.css" onload="this.onload=null;this.rel=\'stylesheet\'">';
+            ->js(__DIR__.'/dist/jquery.fancybox.min.js'),
+            ->css(__DIR__.'/dist/jquery.fancybox.min.css'),
             $document->foot[] = <<<HTML
 <script>
 flarum.core.compat.extend.extend(flarum.core.compat['components/CommentPost'].prototype, 'oncreate', function (output, vnode) {
