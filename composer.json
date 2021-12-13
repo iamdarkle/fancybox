@@ -1,6 +1,6 @@
 {
     "name": "darkle/fancybox",
-    "description": "Fancybox is a touch enabled and responsive tool for displaying images in a "lightbox" that floats overtop of web page.",
+    "description": "Fancybox is a touch enabled and responsive tool for displaying images in a 'lightbox' that floats overtop of web page.",
     "type": "flarum-extension",
     "keywords": ["flarum","extension","images","fancybox"],
     "license": "MIT",
