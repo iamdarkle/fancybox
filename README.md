@@ -22,7 +22,9 @@ In order to install the extension, you will need to follow these simple steps.
    php flarum cache:clear
    ```
 
-## Usage
+## Note
+
+Compatible with `reflar/recache`
 
 ## License
 
