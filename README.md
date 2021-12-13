@@ -1,5 +1,8 @@
 # Fancybox
 
+* [Fancyapps Web](https://fancyapps.com/)
+* [Fancyapps GitHub](https://github.com/fancyapps/ui)
+
 ## Getting Started
 
 In order to install the extension, you will need to follow these simple steps.
@@ -28,6 +31,7 @@ Distributed under the MIT License. See <a href="https://github.com/iamdarkle/fan
 ## Useful Links
 
 * [Flarum](https://flarum.org)
-* [GitHub](https://github.com/iamdarkle)
+* [Flarum Community](https://discuss.flarum.org/d/29102-fancybox)
+* [GitHub](https://github.com/iamdarkle/fancybox)
+* [Packagist](https://packagist.org/packages/darkle/fancybox)
 * [Composer](https://getcomposer.org/)
-* [Packagist](https://packagist.org/)
