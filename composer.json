@@ -17,7 +17,7 @@
     "support": {
         "issues": "https://github.com/iamdarkle/fancybox/issues",
         "source": "https://github.com/iamdarkle/fancybox",
-        "forum": "https://discuss.flarum.org"
+        "forum": "https://discuss.flarum.org/d/29102"
     },
     "require": {
         "flarum/core": "^1.0.0"
