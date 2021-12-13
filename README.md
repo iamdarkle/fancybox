@@ -24,7 +24,7 @@ In order to install the extension, you will need to follow these simple steps.
 
 ## Note
 
-Compatible with `reflar/recache`
+Compatible with <a href="https://extiverse.com/extension/reflar/recache">`reflar/recache`</a>
 
 ## License
 
