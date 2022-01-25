@@ -6,12 +6,8 @@
     "license": "MIT",
     "authors": [
         {
-            "name": "Darkle",
+            "name": "Tomás Romero",
             "email": "tomasromero@outlook.com"
-        },
-        {
-            "name": "Mark Cutting",
-            "homepage": "https://phenomlab.com"
         }
     ],
     "support": {
