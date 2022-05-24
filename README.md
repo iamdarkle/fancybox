@@ -16,7 +16,7 @@ In order to install the extension, you will need to follow these simple steps.
 
 ### ⚠️ Minimum Requirements
 
-* <a href="https://flarum.org">flarum/core</a> 1.0.0
+* <a href="https://flarum.org">flarum/core</a> 1.2.0
 
 ### 📥 Installation
    ```
