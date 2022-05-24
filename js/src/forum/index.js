@@ -7,7 +7,7 @@ app.initializers.add('darkle/fancybox', () => {
   Fancybox.defaults.Image = { zoom: false };
 
   extend(CommentPost.prototype, 'oncreate', function (vnode) {
-    this.element.querySelectorAll('img:not(.emoji):not(.Avatar):not(.PostMeta-ip img):not([data-reaction])').forEach((node) => {
+    this.element.querySelectorAll('img:not(.emoji):not(.Avatar):not(.PostMeta-ip img):not([data-reaction]):not([data-link-preview])').forEach((node) => {
       const fancyboxEl = document.createElement('a');
       fancyboxEl.setAttribute('data-fancybox', 'responsive');
       fancyboxEl.setAttribute('data-src', node.getAttribute('data-src') || node.getAttribute('src'));
