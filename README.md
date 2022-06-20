@@ -11,6 +11,7 @@ In order to install the extension, you will need to follow these simple steps.
 - [`reflar/recache`](https://extiverse.com/extension/reflar/recache) ✅
 - [`fof/reactions`](https://github.com/FriendsOfFlarum/reactions) ✅
 - [`datlechin/flarum-link-preview`](https://github.com/datlechin/flarum-link-preview) ✅
+- [`the-turk/flarum-flamoji`](https://github.com/the-turk/flarum-flamoji) ✅
 - [`datitisev/flarum-post-galleries`](https://github.com/datitisev/flarum-post-galleries) ⌛(https://github.com/iamdarkle/fancybox/issues/6)
 - [`v17development/flarum-support`](https://extiverse.com/extension/v17development/flarum-support) ⌛(https://github.com/iamdarkle/fancybox/issues/5)
 
