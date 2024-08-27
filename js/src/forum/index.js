@@ -8,7 +8,7 @@ app.initializers.add('darkle/fancybox', () => {
 
   extend(CommentPost.prototype, 'oncreate', function (vnode) {
     this.element
-      .querySelectorAll('img:not(.emoji):not(.Avatar):not(.PostMeta-ip img):not([data-reaction]):not([data-link-preview]):not(.flamoji img):not(.countryFlag)')
+      .querySelectorAll('.Post-body img:not(.emoji):not(.Avatar):not(.PostMeta-ip img):not([data-reaction]):not([data-link-preview]):not(.flamoji img):not(.countryFlag):not(.no-fancybox)')
       .forEach((node) => {
         const fancyboxEl = document.createElement('a');
         fancyboxEl.setAttribute('data-fancybox', 'responsive');
