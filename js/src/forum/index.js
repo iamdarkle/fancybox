@@ -22,50 +22,81 @@ app.initializers.add('darkle/fancybox', () => {
     if (!postBody) return;
 
     // Initialize Carousel for each gallery
+    const carousels = new Map();
     postBody.querySelectorAll('.fancybox-gallery').forEach((gallery, index) => {
       if (!gallery.id) {
         gallery.id = `gallery-${index}`;
-        new Carousel(gallery, {
+        const carousel = new Carousel(gallery, {
           Dots: false,
           infinite: false,
           dragFree: true,
         });
+        carousels.set(gallery.id, carousel);
       }
     });
 
-    // Prepare Fancybox items
-    const fancyboxItems = [];
-    postBody.querySelectorAll('a[data-fancybox]').forEach((link, index) => {
-      const img = link.querySelector('img');
-      if (img) {
-        const src = img.getAttribute('data-src') || img.getAttribute('src') || link.href;
-        fancyboxItems.push({
-          src: src,
-          type: 'image',
-          thumbSrc: img.src,
-        });
-        
-        // Update link to use JavaScript API
-        link.onclick = (e) => {
+    // Initialize Fancybox
+    Fancybox.bind(postBody, '[data-fancybox]', {
+      Carousel: {
+        infinite: false,
+      },
+      Toolbar: {
+        display: {
+          left: [],
+          middle: [],
+          right: ["slideshow", "fullscreen", "close"],
+        },
+      },
+      Images: {
+        initialSize: 'fit',
+      },
+      on: {
+        done: (fancybox, slide) => {
+          const carouselEl = slide.triggerEl.closest('.fancybox-gallery');
+          if (carouselEl) {
+            const carousel = carousels.get(carouselEl.id);
+            if (carousel) {
+              carousel.slideTo(slide.index, { friction: 0 });
+            }
+          }
+        },
+        "Carousel.change": (fancybox, carousel, slideIndex) => {
+          const slide = fancybox.getSlide();
+          const carouselEl = slide.triggerEl.closest('.fancybox-gallery');
+          if (carouselEl) {
+            const carousel = carousels.get(carouselEl.id);
+            if (carousel) {
+              carousel.slideTo(slideIndex, { friction: 0 });
+            }
+          }
+        },
+      },
+      dragToClose: false,
+    });
+
+    // Prevent default link behavior and handle dragging
+    postBody.querySelectorAll('a[data-fancybox]').forEach(link => {
+      let isDragging = false;
+      let startX, startY;
+
+      link.addEventListener('mousedown', (e) => {
+        isDragging = false;
+        startX = e.clientX;
+        startY = e.clientY;
+      });
+
+      link.addEventListener('mousemove', (e) => {
+        if (Math.abs(e.clientX - startX) > 5 || Math.abs(e.clientY - startY) > 5) {
+          isDragging = true;
+        }
+      });
+
+      link.addEventListener('click', (e) => {
+        if (isDragging) {
           e.preventDefault();
-          Fancybox.show(fancyboxItems, {
-            startIndex: index,
-            Carousel: {
-              infinite: false,
-            },
-            Toolbar: {
-              display: {
-                left: [],
-                middle: [],
-                right: ["slideshow", "fullscreen", "close"],
-              },
-            },
-            Images: {
-              initialSize: 'fit',
-            },
-          });
-        };
-      }
+          e.stopPropagation();
+        }
+      });
     });
   };
 });
