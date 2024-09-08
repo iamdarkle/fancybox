@@ -3,7 +3,6 @@
 namespace Darkle\Fancybox;
 
 use s9e\TextFormatter\Renderer;
-use s9e\TextFormatter\Utils;
 
 class WrapImagesInGallery
 {

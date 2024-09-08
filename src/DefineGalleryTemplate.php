@@ -11,7 +11,7 @@ class DefineGalleryTemplate
         // Define the IMG-GALLERY tag template
         $galleryTag = $config->tags->add('IMG-GALLERY');
         $galleryTag->template = <<<XML
-        <div class="f-carousel" data-fancybox="gallery">
+        <div class="f-carousel">
             <div class="f-carousel__viewport">
                 <div class="f-carousel__track">
                     <xsl:apply-templates/>
@@ -19,7 +19,7 @@ class DefineGalleryTemplate
             </div>
         </div>
         XML;
-    
+
         // Define the IMG-GALLERY-ITEM tag template
         $itemTag = $config->tags->add('IMG-GALLERY-ITEM');
         $itemTag->template = <<<XML
@@ -29,5 +29,5 @@ class DefineGalleryTemplate
                 </a>
             </div>
         XML;
-    }    
+    }
 }

@@ -7,36 +7,20 @@ import '@fancyapps/ui/dist/fancybox/fancybox.css';
 import '@fancyapps/ui/dist/carousel/carousel.css';
 
 app.initializers.add('darkle/fancybox', () => {
-  extend(CommentPost.prototype, 'oncreate', function (this: any, vnode: any) {
+  extend(CommentPost.prototype, 'oncreate', function () {
     console.log('Running oncreate for CommentPost');
 
-    // Wrap images with anchor tags for Fancybox, only if not already wrapped
-    this.element
-      .querySelectorAll<HTMLImageElement>('.Post-body img:not(.emoji):not(.Avatar):not(.PostMeta-ip img):not([data-reaction]):not([data-link-preview]):not(.flamoji img):not(.countryFlag):not(.no-fancybox)')
-      .forEach((node) => {
-        if (!node.closest('a[data-fancybox="gallery"]')) {
-          const src = node.getAttribute('data-src') || node.getAttribute('src');
-          const fancyboxEl = document.createElement('a');
-          fancyboxEl.setAttribute('data-fancybox', 'gallery');
-          fancyboxEl.href = src!;
-          node.parentNode!.insertBefore(fancyboxEl, node);
-          fancyboxEl.appendChild(node);
-        }
-      });
-
-    console.log('Initializing Carousel');
     // Initialize Carousel
-    this.element
-      .querySelectorAll<HTMLElement>('.f-carousel')
-      .forEach((carousel) => {
-        new Carousel(carousel, {
-          Dots: false,
-        });
+    this.element.querySelectorAll('.f-carousel').forEach((carousel) => {
+      new Carousel(carousel, {
+        Dots: false,
       });
+    });
 
-    console.log('Initializing Fancybox');
-    // Initialize Fancybox
+    console.log('Binding Fancybox');
+    // Bind Fancybox to the newly created anchor elements
     Fancybox.bind('[data-fancybox="gallery"]', {
+      // Add any custom options here
       Carousel: {
         infinite: false,
       },
