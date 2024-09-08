@@ -19,17 +19,15 @@ app.initializers.add('darkle/fancybox', () => {
     };
 
     // Initialize Carousel for each gallery
+    const carousels = [];
     postBody.querySelectorAll('.fancybox-gallery').forEach((gallery, index) => {
       gallery.id = `gallery-${index}`;
       const carousel = new Carousel(gallery, {
         Dots: false,
         infinite: false,
+        dragFree: true,
       });
-
-      // Prevent Fancybox from opening when dragging the carousel
-      let isDragging = false;
-      carousel.on('dragStart', () => { isDragging = true; });
-      carousel.on('dragEnd', () => { setTimeout(() => { isDragging = false; }, 0); });
+      carousels.push(carousel);
     });
 
     // Initialize Fancybox for both galleries and single images
@@ -47,34 +45,39 @@ app.initializers.add('darkle/fancybox', () => {
       Images: {
         initialSize: 'fit',
       },
+      on: {
+        done: (fancybox, slide) => {
+          const carousel = carousels.find(c => c.container.id === slide.triggerEl.closest('.fancybox-gallery').id);
+          if (carousel) {
+            carousel.slideTo(slide.index, { friction: 0 });
+          }
+        },
+      },
     });
 
-    // Prevent page refresh on all Fancybox-enabled image clicks
-    postBody.querySelectorAll('a[data-fancybox]').forEach(link => {
-      link.addEventListener('click', (e) => {
-        const carousel = link.closest('.fancybox-gallery');
-        if (carousel && carousel.classList.contains('is-dragging')) {
-          return;
-        }
-        
-        e.preventDefault();
-        const imageUrl = getImageUrl(link);
-        if (link.getAttribute('data-fancybox') === 'single') {
-          Fancybox.show([{ src: imageUrl, type: 'image' }]);
-        } else {
-          // For carousel images, find the correct starting index
-          const gallery = link.closest('.fancybox-gallery');
-          if (gallery) {
-            const slides = Array.from(gallery.querySelectorAll('.f-carousel__slide'));
-            const index = slides.indexOf(link.closest('.f-carousel__slide'));
-            const images = slides.map(slide => ({
-              src: getImageUrl(slide.querySelector('a')),
-              type: 'image'
-            }));
-            Fancybox.show(images, { startIndex: index });
-          }
+    // Prevent Fancybox from opening when dragging the carousel
+    postBody.querySelectorAll('.fancybox-gallery').forEach(gallery => {
+      let isDragging = false;
+      let startX, startY;
+
+      gallery.addEventListener('mousedown', e => {
+        isDragging = false;
+        startX = e.pageX;
+        startY = e.pageY;
+      });
+
+      gallery.addEventListener('mousemove', e => {
+        if (Math.abs(e.pageX - startX) > 5 || Math.abs(e.pageY - startY) > 5) {
+          isDragging = true;
         }
       });
+
+      gallery.addEventListener('click', e => {
+        if (isDragging) {
+          e.preventDefault();
+          e.stopPropagation();
+        }
+      }, true);
     });
   });
 });
