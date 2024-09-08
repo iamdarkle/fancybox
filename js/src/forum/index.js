@@ -1,8 +1,9 @@
 import app from 'flarum/forum/app';
 import { extend } from 'flarum/common/extend';
 import CommentPost from 'flarum/forum/components/CommentPost';
-import { Fancybox } from '@fancyapps/ui';
+import { Fancybox, Carousel } from '@fancyapps/ui';
 import '@fancyapps/ui/dist/fancybox/fancybox.css';
+import '@fancyapps/ui/dist/carousel/carousel.css';
 
 app.initializers.add('darkle/fancybox', () => {
   extend(CommentPost.prototype, 'oncreate', function () {
