@@ -12,22 +12,40 @@ app.initializers.add('darkle/fancybox', () => {
   extend(CommentPost.prototype, 'oncreate', function () {
     const postBody = this.element.querySelector('.Post-body');
     
-    // Initialize Carousel for each gallery
-    postBody.querySelectorAll('.fancybox-gallery').forEach((gallery, index) => {
-      gallery.id = `gallery-${index}`;
-      new Carousel(gallery, {
-        Dots: false,
-      });
-    });
-
     // Function to get the correct image URL
     const getImageUrl = (element) => {
       const img = element.querySelector('img');
       return img ? (img.getAttribute('data-src') || img.getAttribute('src')) : element.href;
     };
 
-    // Initialize Fancybox for both galleries and single images
-    Fancybox.bind('[data-fancybox]', {
+    // Initialize Carousel for each gallery
+    postBody.querySelectorAll('.fancybox-gallery').forEach((gallery, index) => {
+      gallery.id = `gallery-${index}`;
+      const carousel = new Carousel(gallery, {
+        Dots: false,
+        on: {
+          createSlide: (carousel, slide) => {
+            const link = slide.el.querySelector('a');
+            if (link) {
+              link.addEventListener('click', (e) => {
+                if (!carousel.isDragging) {
+                  e.preventDefault();
+                  const slides = Array.from(gallery.querySelectorAll('.f-carousel__slide'));
+                  const images = slides.map(slide => ({
+                    src: getImageUrl(slide.querySelector('a')),
+                    type: 'image'
+                  }));
+                  Fancybox.show(images, { startIndex: slide.index });
+                }
+              });
+            }
+          }
+        }
+      });
+    });
+
+    // Initialize Fancybox for single images
+    Fancybox.bind('a[data-fancybox="single"]', {
       Carousel: {
         infinite: false,
       },
@@ -43,26 +61,12 @@ app.initializers.add('darkle/fancybox', () => {
       },
     });
 
-    // Prevent page refresh on all Fancybox-enabled image clicks
-    postBody.querySelectorAll('a[data-fancybox]').forEach(link => {
+    // Handle clicks on single images
+    postBody.querySelectorAll('a[data-fancybox="single"]').forEach(link => {
       link.addEventListener('click', (e) => {
         e.preventDefault();
         const imageUrl = getImageUrl(link);
-        if (link.getAttribute('data-fancybox') === 'single') {
-          Fancybox.show([{ src: imageUrl, type: 'image' }]);
-        } else {
-          // For carousel images, find the correct starting index
-          const gallery = link.closest('.fancybox-gallery');
-          if (gallery) {
-            const slides = Array.from(gallery.querySelectorAll('.f-carousel__slide'));
-            const index = slides.indexOf(link.closest('.f-carousel__slide'));
-            const images = slides.map(slide => ({
-              src: getImageUrl(slide.querySelector('a')),
-              type: 'image'
-            }));
-            Fancybox.show(images, { startIndex: index });
-          }
-        }
+        Fancybox.show([{ src: imageUrl, type: 'image' }]);
       });
     });
   });
