@@ -20,6 +20,12 @@ app.initializers.add('darkle/fancybox', () => {
       });
     });
 
+    // Function to get the correct image URL
+    const getImageUrl = (element) => {
+      const img = element.querySelector('img');
+      return img ? (img.getAttribute('data-src') || img.getAttribute('src')) : element.href;
+    };
+
     // Initialize Fancybox for both galleries and single images
     Fancybox.bind('[data-fancybox]', {
       Carousel: {
@@ -32,21 +38,29 @@ app.initializers.add('darkle/fancybox', () => {
           right: ["slideshow", "fullscreen", "close"],
         },
       },
+      Images: {
+        initialSize: 'fit',
+      },
     });
 
     // Prevent page refresh on all Fancybox-enabled image clicks
     postBody.querySelectorAll('a[data-fancybox]').forEach(link => {
       link.addEventListener('click', (e) => {
         e.preventDefault();
+        const imageUrl = getImageUrl(link);
         if (link.getAttribute('data-fancybox') === 'single') {
-          Fancybox.show([{ src: link.href, type: 'image' }]);
+          Fancybox.show([{ src: imageUrl, type: 'image' }]);
         } else {
           // For carousel images, find the correct starting index
           const gallery = link.closest('.fancybox-gallery');
           if (gallery) {
             const slides = Array.from(gallery.querySelectorAll('.f-carousel__slide'));
             const index = slides.indexOf(link.closest('.f-carousel__slide'));
-            Fancybox.fromOpener(link, { startIndex: index });
+            const images = slides.map(slide => ({
+              src: getImageUrl(slide.querySelector('a')),
+              type: 'image'
+            }));
+            Fancybox.show(images, { startIndex: index });
           }
         }
       });
