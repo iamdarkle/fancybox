@@ -98,7 +98,15 @@ app.initializers.add('darkle/fancybox', () => {
           const group = postBody.querySelectorAll(`a[data-fancybox="${groupName}"]`);
           const index = Array.from(group).indexOf(link);
           
-          Fancybox.fromNodes(Array.from(group), {
+          const images = Array.from(group).map(node => {
+            const img = node.querySelector('img');
+            return {
+              src: node.href || img.getAttribute('data-src') || img.src,
+              thumb: img.src,
+            };
+          });
+
+          Fancybox.show(images, {
             ...fancyboxOptions,
             startIndex: index,
           });

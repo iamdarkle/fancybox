@@ -21,21 +21,15 @@ class DefineGalleryTemplate
                 <xsl:choose>
                     <xsl:when test="parent::FANCYBOX-GALLERY-ITEM">
                         <a data-fancybox="gallery" href="{@url}">
-                            <img>
+                            <img src="{@url}" data-src="{@url}">
                                 <xsl:copy-of select="@*"/>
-                                <xsl:attribute name="data-src">
-                                    <xsl:value-of select="@url"/>
-                                </xsl:attribute>
                             </img>
                         </a>
                     </xsl:when>
                     <xsl:otherwise>
                         <a data-fancybox="single" href="{@url}">
-                            <img>
+                            <img src="{@url}" data-src="{@url}">
                                 <xsl:copy-of select="@*"/>
-                                <xsl:attribute name="data-src">
-                                    <xsl:value-of select="@url"/>
-                                </xsl:attribute>
                             </img>
                         </a>
                     </xsl:otherwise>
