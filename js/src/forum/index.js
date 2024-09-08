@@ -22,21 +22,19 @@ app.initializers.add('darkle/fancybox', () => {
     if (!postBody) return;
 
     // Initialize Carousel for each gallery
-    const carousels = new Map();
     postBody.querySelectorAll('.fancybox-gallery').forEach((gallery, index) => {
       if (!gallery.id) {
         gallery.id = `gallery-${index}`;
-        const carousel = new Carousel(gallery, {
+        new Carousel(gallery, {
           Dots: false,
           infinite: false,
           dragFree: false,
         });
-        carousels.set(gallery.id, carousel);
       }
     });
 
-    // Setup Fancybox for all images
-    const fancyboxOptions = {
+    // Initialize Fancybox
+    Fancybox.bind(postBody, '[data-fancybox]', {
       Carousel: {
         infinite: false,
       },
@@ -54,63 +52,19 @@ app.initializers.add('darkle/fancybox', () => {
         done: (fancybox, slide) => {
           const carouselEl = slide.triggerEl.closest('.fancybox-gallery');
           if (carouselEl) {
-            const carousel = carousels.get(carouselEl.id);
+            const carousel = Carousel.getInstance(carouselEl);
             if (carousel) {
               carousel.slideTo(slide.index, { friction: 0 });
             }
           }
         },
-        "Carousel.change": (fancybox, carousel, slideIndex) => {
-          const slide = fancybox.getSlide();
-          const carouselEl = slide.triggerEl.closest('.fancybox-gallery');
-          if (carouselEl) {
-            const carousel = carousels.get(carouselEl.id);
-            if (carousel) {
-              carousel.slideTo(slideIndex, { friction: 0 });
-            }
-          }
-        },
       },
-      dragToClose: false,
-    };
+    });
 
-    // Handle clicks on Fancybox-enabled links
+    // Prevent default link behavior
     postBody.querySelectorAll('a[data-fancybox]').forEach(link => {
-      let isDragging = false;
-      let startX, startY;
-
-      link.addEventListener('mousedown', (e) => {
-        isDragging = false;
-        startX = e.clientX;
-        startY = e.clientY;
-      });
-
-      link.addEventListener('mousemove', (e) => {
-        if (Math.abs(e.clientX - startX) > 5 || Math.abs(e.clientY - startY) > 5) {
-          isDragging = true;
-        }
-      });
-
       link.addEventListener('click', (e) => {
         e.preventDefault();
-        if (!isDragging) {
-          const groupName = link.getAttribute('data-fancybox');
-          const group = postBody.querySelectorAll(`a[data-fancybox="${groupName}"]`);
-          const index = Array.from(group).indexOf(link);
-          
-          const images = Array.from(group).map(node => {
-            const img = node.querySelector('img');
-            return {
-              src: node.href || img.getAttribute('data-src') || img.src,
-              thumb: img.src,
-            };
-          });
-
-          Fancybox.show(images, {
-            ...fancyboxOptions,
-            startIndex: index,
-          });
-        }
       });
     });
   };
