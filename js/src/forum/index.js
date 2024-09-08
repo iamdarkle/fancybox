@@ -20,8 +20,8 @@ app.initializers.add('darkle/fancybox', () => {
       });
     });
 
-    // Initialize Fancybox for all galleries and single images
-    Fancybox.bind('[data-fancybox]', {
+    // Initialize Fancybox for galleries
+    Fancybox.bind('[data-fancybox="gallery"]', {
       Carousel: {
         infinite: false,
       },
@@ -33,5 +33,8 @@ app.initializers.add('darkle/fancybox', () => {
         },
       },
     });
+
+    // Make Fancybox available globally for single image clicks
+    window.Fancybox = Fancybox;
   });
 });
