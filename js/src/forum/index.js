@@ -38,8 +38,9 @@ app.initializers.add('darkle/fancybox', () => {
     postBody.querySelectorAll('a[data-fancybox]').forEach((link, index) => {
       const img = link.querySelector('img');
       if (img) {
+        const src = img.getAttribute('data-src') || img.getAttribute('src') || link.href;
         fancyboxItems.push({
-          src: link.href,
+          src: src,
           type: 'image',
           thumbSrc: img.src,
         });
