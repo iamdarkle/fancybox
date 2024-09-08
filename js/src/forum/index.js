@@ -12,22 +12,14 @@ app.initializers.add('darkle/fancybox', () => {
   extend(CommentPost.prototype, 'oncreate', function () {
     const postBody = this.element.querySelector('.Post-body');
     
-    // Function to get the correct image URL
-    const getImageUrl = (element) => {
-      const img = element.querySelector('img');
-      return img ? (img.getAttribute('data-src') || img.getAttribute('src')) : element.href;
-    };
-
     // Initialize Carousel for each gallery
-    const carousels = [];
     postBody.querySelectorAll('.fancybox-gallery').forEach((gallery, index) => {
       gallery.id = `gallery-${index}`;
-      const carousel = new Carousel(gallery, {
+      new Carousel(gallery, {
         Dots: false,
         infinite: false,
         dragFree: true,
       });
-      carousels.push(carousel);
     });
 
     // Initialize Fancybox for both galleries and single images
@@ -45,39 +37,23 @@ app.initializers.add('darkle/fancybox', () => {
       Images: {
         initialSize: 'fit',
       },
-      on: {
-        done: (fancybox, slide) => {
-          const carousel = carousels.find(c => c.container.id === slide.triggerEl.closest('.fancybox-gallery').id);
-          if (carousel) {
-            carousel.slideTo(slide.index, { friction: 0 });
-          }
-        },
-      },
     });
 
     // Prevent Fancybox from opening when dragging the carousel
     postBody.querySelectorAll('.fancybox-gallery').forEach(gallery => {
       let isDragging = false;
-      let startX, startY;
-
-      gallery.addEventListener('mousedown', e => {
+      gallery.addEventListener('mousedown', () => {
         isDragging = false;
-        startX = e.pageX;
-        startY = e.pageY;
       });
-
-      gallery.addEventListener('mousemove', e => {
-        if (Math.abs(e.pageX - startX) > 5 || Math.abs(e.pageY - startY) > 5) {
-          isDragging = true;
-        }
+      gallery.addEventListener('mousemove', () => {
+        isDragging = true;
       });
-
-      gallery.addEventListener('click', e => {
+      gallery.addEventListener('mouseup', (e) => {
         if (isDragging) {
           e.preventDefault();
           e.stopPropagation();
         }
-      }, true);
+      });
     });
   });
 });
