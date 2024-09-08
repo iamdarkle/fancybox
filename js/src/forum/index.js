@@ -1,11 +1,11 @@
 import app from 'flarum/forum/app';
 import { extend } from 'flarum/common/extend';
 import CommentPost from 'flarum/forum/components/CommentPost';
-import { Fancybox } from '@fancyapps/ui';
+import { Fancybox, Carousel } from '@fancyapps/ui';
 
 app.initializers.add('darkle/fancybox', () => {
   extend(CommentPost.prototype, 'oncreate', function () {
-    // Handle individual images
+    // Initialize Fancybox for individual images
     this.element
       .querySelectorAll('.Post-body img:not(.emoji):not(.Avatar):not(.PostMeta-ip img):not([data-reaction]):not([data-link-preview]):not(.flamoji img):not(.countryFlag):not(.no-fancybox)')
       .forEach((node) => {
@@ -17,35 +17,18 @@ app.initializers.add('darkle/fancybox', () => {
         fancyboxEl.appendChild(node);
       });
 
-    // Initialize fancybox for individual images
     Fancybox.bind('[data-fancybox="gallery"]', {
       Images: {
         zoom: false,
       },
     });
 
-    // Handle galleries (carousels)
+    // Initialize Carousel for galleries
     this.element
       .querySelectorAll('.f-carousel[data-fancybox="gallery"]')
       .forEach((carousel) => {
-        Fancybox.bind(carousel, {
-          Carousel: {
-            infinite: false,
-          },
-          Slideshow: {
-            playOnStart: true,
-            timeout: 3000,
-          },
-          Toolbar: {
-            display: {
-              left: [],
-              middle: [],
-              right: ["slideshow", "close"],
-            },
-          },
-          Images: {
-            zoom: false,
-          },
+        new Carousel(carousel, {
+          infinite: false,
         });
       });
   });
