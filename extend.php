@@ -12,8 +12,8 @@
 namespace Darkle\Fancybox;
 
 use Flarum\Extend;
-use Darkle\Fancybox\DefineGalleryTemplate;
 use Darkle\Fancybox\WrapImagesInGallery;
+use Darkle\Fancybox\DefineGalleryTemplate;
 
 return [
     (new Extend\Frontend('forum'))
