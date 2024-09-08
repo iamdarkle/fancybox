@@ -9,21 +9,41 @@ import { Fancybox } from '@fancyapps/ui/dist/fancybox/fancybox.esm.js';
 import '@fancyapps/ui/dist/fancybox/fancybox.css';
 
 app.initializers.add('darkle/fancybox', () => {
+  extend(CommentPost.prototype, 'oninit', function() {
+    this.fancyboxInstances = [];
+  });
+
   extend(CommentPost.prototype, 'oncreate', function () {
+    this.initFancybox();
+  });
+
+  extend(CommentPost.prototype, 'onupdate', function () {
+    this.initFancybox();
+  });
+
+  extend(CommentPost.prototype, 'onremove', function () {
+    this.fancyboxInstances.forEach(instance => instance.destroy());
+    this.fancyboxInstances = [];
+  });
+
+  CommentPost.prototype.initFancybox = function () {
     const postBody = this.element.querySelector('.Post-body');
-    
+    if (!postBody) return;
+
     // Initialize Carousel for each gallery
     postBody.querySelectorAll('.fancybox-gallery').forEach((gallery, index) => {
-      gallery.id = `gallery-${index}`;
-      new Carousel(gallery, {
-        Dots: false,
-        infinite: false,
-        dragFree: true,
-      });
+      if (!gallery.id) {
+        gallery.id = `gallery-${index}`;
+        new Carousel(gallery, {
+          Dots: false,
+          infinite: false,
+          dragFree: true,
+        });
+      }
     });
 
     // Initialize Fancybox for both galleries and single images
-    Fancybox.bind('[data-fancybox]', {
+    const fancyboxInstance = Fancybox.bind(postBody, '[data-fancybox]', {
       Carousel: {
         infinite: false,
       },
@@ -37,23 +57,27 @@ app.initializers.add('darkle/fancybox', () => {
       Images: {
         initialSize: 'fit',
       },
+      on: {
+        initCarousel: (fancybox) => {
+          const slide = fancybox.getSlide();
+          const carouselEl = slide.triggerEl && slide.triggerEl.closest('.fancybox-gallery');
+          if (carouselEl) {
+            const carousel = Carousel.getInstance(carouselEl);
+            if (carousel) {
+              carousel.slideTo(slide.index);
+            }
+          }
+        },
+      },
     });
 
-    // Prevent Fancybox from opening when dragging the carousel
-    postBody.querySelectorAll('.fancybox-gallery').forEach(gallery => {
-      let isDragging = false;
-      gallery.addEventListener('mousedown', () => {
-        isDragging = false;
-      });
-      gallery.addEventListener('mousemove', () => {
-        isDragging = true;
-      });
-      gallery.addEventListener('mouseup', (e) => {
-        if (isDragging) {
-          e.preventDefault();
-          e.stopPropagation();
-        }
+    this.fancyboxInstances.push(fancyboxInstance);
+
+    // Prevent default link behavior
+    postBody.querySelectorAll('a[data-fancybox]').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
       });
     });
-  });
+  };
 });
