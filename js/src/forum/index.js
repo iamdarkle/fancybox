@@ -1,42 +1,36 @@
 import app from 'flarum/forum/app';
 import { extend } from 'flarum/common/extend';
 import CommentPost from 'flarum/forum/components/CommentPost';
-import { Fancybox } from '@fancyapps/ui';
+
+import { Carousel } from '@fancyapps/ui/dist/carousel/carousel.esm.js';
+import '@fancyapps/ui/dist/carousel/carousel.css';
+
+import { Fancybox } from '@fancyapps/ui/dist/fancybox/fancybox.esm.js';
+import '@fancyapps/ui/dist/fancybox/fancybox.css';
 
 app.initializers.add('darkle/fancybox', () => {
-  extend(CommentPost.prototype, 'oncreate', function (vnode) {
-    // Initialize Fancybox for single images
-    this.element
-      .querySelectorAll('.Post-body img:not(.emoji):not(.Avatar):not(.PostMeta-ip img):not([data-reaction]):not([data-link-preview]):not(.flamoji img):not(.countryFlag):not(.no-fancybox)')
-      .forEach((node) => {
-        if (!node.closest('.fancybox-gallery')) {
-          const src = node.getAttribute('data-src') || node.getAttribute('src');
-          const fancyboxEl = document.createElement('a');
-          fancyboxEl.setAttribute('data-fancybox', 'single');
-          fancyboxEl.href = src;
-          node.parentNode.insertBefore(fancyboxEl, node);
-          fancyboxEl.appendChild(node);
-        }
+  extend(CommentPost.prototype, 'oncreate', function () {
+    const postBody = this.element.querySelector('.Post-body');
+    
+    // Initialize Carousel for each gallery
+    postBody.querySelectorAll('.fancybox-gallery').forEach((gallery, index) => {
+      gallery.id = `gallery-${index}`;
+      new Carousel(gallery, {
+        Dots: false,
       });
+    });
 
-    // Initialize Fancybox for galleries
-    Fancybox.bind('[data-fancybox="gallery"], [data-fancybox="single"]', {
+    // Initialize Fancybox for all galleries and single images
+    Fancybox.bind('[data-fancybox]', {
       Carousel: {
         infinite: false,
-      },
-      Slideshow: {
-        playOnStart: true,
-        timeout: 3000,
       },
       Toolbar: {
         display: {
           left: [],
           middle: [],
-          right: ["slideshow", "close"],
+          right: ["slideshow", "fullscreen", "close"],
         },
-      },
-      Images: {
-        zoom: false,
       },
     });
   });
