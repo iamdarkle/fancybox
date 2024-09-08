@@ -28,7 +28,6 @@ app.initializers.add('darkle/fancybox', () => {
         new Carousel(gallery, {
           Dots: false,
           infinite: false,
-          dragFree: false,
         });
       }
     });
@@ -48,24 +47,13 @@ app.initializers.add('darkle/fancybox', () => {
       Images: {
         initialSize: 'fit',
       },
-      on: {
-        done: (fancybox, slide) => {
-          const carouselEl = slide.triggerEl.closest('.fancybox-gallery');
-          if (carouselEl) {
-            const carousel = Carousel.getInstance(carouselEl);
-            if (carousel) {
-              carousel.slideTo(slide.index, { friction: 0 });
-            }
-          }
-        },
-      },
     });
 
     // Prevent default link behavior
     postBody.querySelectorAll('a[data-fancybox]').forEach(link => {
-      link.addEventListener('click', (e) => {
+      link.onclick = (e) => {
         e.preventDefault();
-      });
+      };
     });
   };
 });
