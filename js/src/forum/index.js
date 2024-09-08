@@ -29,14 +29,14 @@ app.initializers.add('darkle/fancybox', () => {
         const carousel = new Carousel(gallery, {
           Dots: false,
           infinite: false,
-          dragFree: true,
+          dragFree: false,
         });
         carousels.set(gallery.id, carousel);
       }
     });
 
-    // Initialize Fancybox
-    Fancybox.bind(postBody, '[data-fancybox]', {
+    // Setup Fancybox for all images
+    const fancyboxOptions = {
       Carousel: {
         infinite: false,
       },
@@ -72,9 +72,9 @@ app.initializers.add('darkle/fancybox', () => {
         },
       },
       dragToClose: false,
-    });
+    };
 
-    // Prevent default link behavior and handle dragging
+    // Handle clicks on Fancybox-enabled links
     postBody.querySelectorAll('a[data-fancybox]').forEach(link => {
       let isDragging = false;
       let startX, startY;
@@ -92,9 +92,16 @@ app.initializers.add('darkle/fancybox', () => {
       });
 
       link.addEventListener('click', (e) => {
-        if (isDragging) {
-          e.preventDefault();
-          e.stopPropagation();
+        e.preventDefault();
+        if (!isDragging) {
+          const groupName = link.getAttribute('data-fancybox');
+          const group = postBody.querySelectorAll(`a[data-fancybox="${groupName}"]`);
+          const index = Array.from(group).indexOf(link);
+          
+          Fancybox.fromNodes(Array.from(group), {
+            ...fancyboxOptions,
+            startIndex: index,
+          });
         }
       });
     });
