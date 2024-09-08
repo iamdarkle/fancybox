@@ -9,21 +9,12 @@ import { Fancybox } from '@fancyapps/ui/dist/fancybox/fancybox.esm.js';
 import '@fancyapps/ui/dist/fancybox/fancybox.css';
 
 app.initializers.add('darkle/fancybox', () => {
-  extend(CommentPost.prototype, 'oninit', function() {
-    this.fancyboxInstances = [];
-  });
-
   extend(CommentPost.prototype, 'oncreate', function () {
     this.initFancybox();
   });
 
   extend(CommentPost.prototype, 'onupdate', function () {
     this.initFancybox();
-  });
-
-  extend(CommentPost.prototype, 'onremove', function () {
-    this.fancyboxInstances.forEach(instance => instance.destroy());
-    this.fancyboxInstances = [];
   });
 
   CommentPost.prototype.initFancybox = function () {
@@ -43,7 +34,7 @@ app.initializers.add('darkle/fancybox', () => {
     });
 
     // Initialize Fancybox for both galleries and single images
-    const fancyboxInstance = Fancybox.bind(postBody, '[data-fancybox]', {
+    Fancybox.bind(postBody, '[data-fancybox]', {
       Carousel: {
         infinite: false,
       },
@@ -71,13 +62,11 @@ app.initializers.add('darkle/fancybox', () => {
       },
     });
 
-    this.fancyboxInstances.push(fancyboxInstance);
-
     // Prevent default link behavior
     postBody.querySelectorAll('a[data-fancybox]').forEach(link => {
-      link.addEventListener('click', (e) => {
+      link.onclick = (e) => {
         e.preventDefault();
-      });
+      };
     });
   };
 });
