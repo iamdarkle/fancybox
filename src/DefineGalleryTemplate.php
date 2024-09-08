@@ -16,22 +16,17 @@ class DefineGalleryTemplate
 
         if ($config->tags->exists('IMG')) {
             $tag = $config->tags->get('IMG');
-            $newTemplate = $tag->template;
+            $originalTemplate = $tag->template;
             $tag->template = <<<XML
                 <xsl:choose>
                     <xsl:when test="parent::FANCYBOX-GALLERY-ITEM">
-                        <a data-fancybox="gallery" data-src="{@url}">
-                            <img>
-                                <xsl:copy-of select="@*"/>
-                                <xsl:attribute name="data-lazy-src">
-                                    <xsl:value-of select="@url"/>
-                                </xsl:attribute>
-                            </img>
+                        <a data-fancybox="gallery" href="{@url}">
+                            $originalTemplate
                         </a>
                     </xsl:when>
                     <xsl:otherwise>
-                        <a data-fancybox="single" href="{@url}" onclick="event.preventDefault(); Fancybox.show([{src: '{@url}'}]);">
-                            $newTemplate
+                        <a data-fancybox="single" href="{@url}">
+                            $originalTemplate
                         </a>
                     </xsl:otherwise>
                 </xsl:choose>
