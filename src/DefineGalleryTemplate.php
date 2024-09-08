@@ -30,7 +30,7 @@ class DefineGalleryTemplate
                         </a>
                     </xsl:when>
                     <xsl:otherwise>
-                        <a data-fancybox="single" href="{@url}" onclick="event.preventDefault(); Fancybox.show([{src: this.href}]);">
+                        <a data-fancybox="single" href="{@url}" onclick="event.preventDefault(); Fancybox.show([{src: '{@url}'}]);">
                             $newTemplate
                         </a>
                     </xsl:otherwise>

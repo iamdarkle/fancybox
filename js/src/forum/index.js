@@ -18,6 +18,13 @@ app.initializers.add('darkle/fancybox', () => {
       new Carousel(gallery, {
         Dots: false,
       });
+
+      // Ensure all gallery images have proper src attribute
+      gallery.querySelectorAll('img').forEach(img => {
+        if (!img.src && img.dataset.lazySrc) {
+          img.src = img.dataset.lazySrc;
+        }
+      });
     });
 
     // Initialize Fancybox for galleries
@@ -36,5 +43,12 @@ app.initializers.add('darkle/fancybox', () => {
 
     // Make Fancybox available globally for single image clicks
     window.Fancybox = Fancybox;
+
+    // Ensure all single images have proper src attribute
+    postBody.querySelectorAll('a[data-fancybox="single"] img').forEach(img => {
+      if (!img.src && img.parentNode.href) {
+        img.src = img.parentNode.href;
+      }
+    });
   });
 });
