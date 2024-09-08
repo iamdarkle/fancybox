@@ -8,22 +8,16 @@ class DefineGalleryTemplate
 {
     public function __invoke(Configurator $config)
     {
-        // Define the IMG-GALLERY tag template
-        $galleryTag = $config->tags->add('IMG-GALLERY');
-        $galleryTag->template = <<<XML
-        <div class="f-carousel">
-            <div class="f-carousel__viewport">
-                <div class="f-carousel__track">
-                    <xsl:apply-templates/>
-                </div>
-            </div>
+        $tag = $config->tags->add('IMG-GALLERY');
+        $tag->template = <<<XML
+        <div class="fancybox-gallery" data-fancybox="gallery">
+            <xsl:apply-templates/>
         </div>
         XML;
 
-        // Define the IMG-GALLERY-ITEM tag template
-        $itemTag = $config->tags->add('IMG-GALLERY-ITEM');
-        $itemTag->template = <<<XML
-            <div class="f-carousel__slide" data-fancybox="gallery">
+        $tag = $config->tags->add('IMG-GALLERY-ITEM');
+        $tag->template = <<<XML
+            <div class="fancybox-item">
                 <xsl:apply-templates/>
             </div>
         XML;
