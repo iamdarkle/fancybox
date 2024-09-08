@@ -23,10 +23,8 @@ class DefineGalleryTemplate
         // Define the IMG-GALLERY-ITEM tag template
         $itemTag = $config->tags->add('IMG-GALLERY-ITEM');
         $itemTag->template = <<<XML
-            <div class="f-carousel__slide">
-                <a href="{@src}" data-fancybox="gallery">
-                    <img src="{@src}" alt="{@alt}"/>
-                </a>
+            <div class="f-carousel__slide" data-fancybox="gallery" data-src="{@src}" data-index="{count(preceding-sibling::*)}">
+                <img src="{@src}" alt="{@alt}" />
             </div>
         XML;
     }
