@@ -20,7 +20,7 @@
     },
     "autoload": {
         "psr-4": {
-            "darkle\\fancybox\\": "src/"
+            "Darkle\\Fancybox\\": "src/"
         }
     },
     "extra": {
