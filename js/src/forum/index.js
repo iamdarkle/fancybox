@@ -33,5 +33,23 @@ app.initializers.add('darkle/fancybox', () => {
         },
       },
     });
+
+    // Prevent page refresh on all Fancybox-enabled image clicks
+    postBody.querySelectorAll('a[data-fancybox]').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        if (link.getAttribute('data-fancybox') === 'single') {
+          Fancybox.show([{ src: link.href, type: 'image' }]);
+        } else {
+          // For carousel images, find the correct starting index
+          const gallery = link.closest('.fancybox-gallery');
+          if (gallery) {
+            const slides = Array.from(gallery.querySelectorAll('.f-carousel__slide'));
+            const index = slides.indexOf(link.closest('.f-carousel__slide'));
+            Fancybox.fromOpener(link, { startIndex: index });
+          }
+        }
+      });
+    });
   });
 });
