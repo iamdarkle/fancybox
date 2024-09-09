@@ -20,22 +20,16 @@ class DefineGalleryTemplate
             $tag->template = <<<XML
                 <xsl:choose>
                     <xsl:when test="parent::FANCYBOX-GALLERY-ITEM">
-                        <a data-fancybox="gallery" href="{@url}">
-                            <img>
+                        <a data-fancybox="gallery" href="{@src}">
+                            <img src="{@src}" alt="{@alt}" loading="lazy">
                                 <xsl:copy-of select="@*"/>
-                                <xsl:attribute name="data-src">
-                                    <xsl:value-of select="@url"/>
-                                </xsl:attribute>
                             </img>
                         </a>
                     </xsl:when>
                     <xsl:otherwise>
-                        <a data-fancybox="single" href="{@url}">
-                            <img>
+                        <a data-fancybox="single" href="{@src}">
+                            <img src="{@src}" alt="{@alt}" loading="lazy">
                                 <xsl:copy-of select="@*"/>
-                                <xsl:attribute name="data-src">
-                                    <xsl:value-of select="@url"/>
-                                </xsl:attribute>
                             </img>
                         </a>
                     </xsl:otherwise>
