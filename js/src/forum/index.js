@@ -50,23 +50,14 @@ app.initializers.add('darkle/fancybox', () => {
         initialSize: 'fit',
       },
       on: {
-        done: (fancybox, slide) => {
-          const carouselEl = slide.triggerEl.closest('.fancybox-gallery');
-          if (carouselEl) {
-            const carousel = carousels.get(carouselEl.id);
-            if (carousel) {
-              carousel.slideTo(slide.index, { friction: 0 });
-            }
-          }
-        },
-        "Carousel.change": (fancybox, carousel, slideIndex) => {
+        "Carousel.ready Carousel.change": (fancybox) => {
           const slide = fancybox.getSlide();
           const carouselEl = slide.triggerEl.closest('.fancybox-gallery');
           if (carouselEl) {
             const carousel = carousels.get(carouselEl.id);
             if (carousel) {
-              // Correct the off-by-one issue
-              carousel.slideTo(slideIndex, { friction: 0 });
+              // Correctly align the slide index
+              carousel.slideTo(slide.index, { friction: 0 });
             }
           }
         },
@@ -103,14 +94,14 @@ app.initializers.add('darkle/fancybox', () => {
           });
 
           // Sync slide changes between Carousel and Fancybox
-          fancyboxInstance.Carousel.on('change', (carousel, slide) => {
-            const currentSlideIndex = slide.index;
+          fancyboxInstance.on('Carousel.ready Carousel.change', (fancybox) => {
+            const slide = fancybox.getSlide();
             const carouselEl = slide.triggerEl.closest('.fancybox-gallery');
             if (carouselEl) {
               const carousel = carousels.get(carouselEl.id);
               if (carousel) {
                 // Ensure indices are correctly aligned
-                carousel.slideTo(currentSlideIndex, { friction: 0 });
+                carousel.slideTo(slide.index, { friction: 0 });
               }
             }
           });
