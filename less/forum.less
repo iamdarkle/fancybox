@@ -7,8 +7,16 @@
     --f-button-width: 36px;
     --f-button-height: 36px;
     --f-button-border-radius: 4px;
-    --f-button-hover-bg: var(--button-bg-hover);
-    --f-button-active-bg: var(--button-bg-hover);
+}
+
+.f-button:hover, .f-button:active {
+    background-color: var(--button-bg-hover);
+}
+
+.f-carousel__slide {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .fancybox-gallery, a[data-fancybox="single"] > img {
@@ -17,5 +25,11 @@
 }
 
 a[data-fancybox="single"], a[data-fancybox="gallery"] {
+    display: flex; 
     border-bottom: none !important;
+}
+
+a[data-fancybox="gallery"] > img {
+    max-width: 100%;
+    height: auto;
 }
