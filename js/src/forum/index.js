@@ -71,16 +71,15 @@ app.initializers.add('darkle/fancybox', () => {
             },
             Toolbar: {
               display: {
-                left: [],
-                middle: [],
+                left: ["infobar"],
+                middle: ["zoomIn","zoomOut","toggle1to1","rotateCCW","rotateCW","flipX","flipY"],
                 right: ["slideshow", "fullscreen", "close"],
               },
             },
             Images: {
               initialSize: 'fit',
             },
-            dragToClose: false,
-            startIndex: index,
+            dragToClose: true,
           });
         }
       });
