@@ -49,9 +49,17 @@ app.initializers.add('darkle/fancybox', () => {
   };
 
   CommentPost.prototype.cleanupFancybox = function() {
-    Fancybox.close();
-    this.carousels.forEach(carousel => carousel.destroy());
-    this.carousels.clear();
+    if (Fancybox.getInstance()) {
+      Fancybox.close(true); // Force close any open instance
+    }
+    if (this.carousels) {
+      this.carousels.forEach(carousel => {
+        if (carousel && typeof carousel.destroy === 'function') {
+          carousel.destroy();
+        }
+      });
+      this.carousels.clear();
+    }
     this.fancyboxInitialized = false;
   };
 
@@ -81,7 +89,7 @@ app.initializers.add('darkle/fancybox', () => {
         this.carousels.set(gallery.id, carousel);
       }
     });
-  
+
     const fancyboxOptions = {
       Carousel: {
         infinite: false,
@@ -107,41 +115,44 @@ app.initializers.add('darkle/fancybox', () => {
             }
           }
         },
-        "close": (fancybox, event) => {
-          event.preventDefault();
+        "closing": (fancybox) => {
+          // Perform any necessary cleanup or actions before Fancybox closes
         },
+        "destroy": (fancybox) => {
+          // Perform any necessary cleanup after Fancybox is destroyed
+        }
       },
-      dragToClose: true,
+      dragToClose: false,
     };
-  
+
     postBody.querySelectorAll('a[data-fancybox]').forEach(link => {
       let isDragging = false;
       let startX, startY;
-  
+
       link.addEventListener('mousedown', (e) => {
         isDragging = false;
         startX = e.clientX;
         startY = e.clientY;
       });
-  
+
       link.addEventListener('mousemove', (e) => {
         if (Math.abs(e.clientX - startX) > 5 || Math.abs(e.clientY - startY) > 5) {
           isDragging = true;
         }
       });
-  
+
       link.addEventListener('click', (e) => {
         e.preventDefault();
         if (!isDragging) {
           const groupName = link.getAttribute('data-fancybox');
           const group = postBody.querySelectorAll(`a[data-fancybox="${groupName}"]`);
           const index = Array.from(group).indexOf(link);
-  
+
           const fancyboxInstance = Fancybox.fromNodes(Array.from(group), {
             ...fancyboxOptions,
             startIndex: index,
           });
-  
+
           // Sync slide changes between Carousel and Fancybox
           fancyboxInstance.on('Carousel.ready Carousel.change', (fancybox) => {
             const slide = fancybox.getSlide();
@@ -158,3 +169,4 @@ app.initializers.add('darkle/fancybox', () => {
       });
     });
   };
+});
