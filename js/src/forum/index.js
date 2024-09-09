@@ -23,6 +23,8 @@ app.initializers.add('darkle/fancybox', () => {
 
     // Initialize Carousel for each gallery
     const carousels = new Map();
+    const currentIndices = new Map(); // Map to store current indices for each gallery
+
     postBody.querySelectorAll('.fancybox-gallery').forEach((gallery, index) => {
       if (!gallery.id) {
         gallery.id = `gallery-${index}`;
@@ -32,6 +34,7 @@ app.initializers.add('darkle/fancybox', () => {
           dragFree: false,
         });
         carousels.set(gallery.id, carousel);
+        currentIndices.set(gallery.id, 0); // Initialize current index
       }
     });
 
@@ -58,28 +61,37 @@ app.initializers.add('darkle/fancybox', () => {
           const group = postBody.querySelectorAll(`a[data-fancybox="${groupName}"]`);
           const index = Array.from(group).indexOf(link);
 
-          // Find the gallery element this link belongs to
           const gallery = link.closest('.fancybox-gallery');
-          if (!gallery) return; // Ensure gallery is found
+          if (!gallery) return;
+
+          // Use the stored current index for this gallery
+          const startIndex = currentIndices.get(gallery.id) || 0;
 
           const fancyboxInstance = Fancybox.fromNodes(Array.from(group), {
             Carousel: {
               infinite: false,
               Sync: {
-                target: carousels.get(gallery.id), // Use the gallery variable here
+                target: carousels.get(gallery.id),
               },
             },
             Toolbar: {
               display: {
-                left: ["infobar"],
-                middle: ["zoomIn","zoomOut","toggle1to1","rotateCCW","rotateCW","flipX","flipY"],
+                left: [],
+                middle: [],
                 right: ["slideshow", "fullscreen", "close"],
               },
             },
             Images: {
               initialSize: 'fit',
             },
-            dragToClose: true,
+            dragToClose: false,
+            startIndex: startIndex,
+          });
+
+          // Update current index on slide change
+          fancyboxInstance.on('Carousel.change', (fancybox) => {
+            const slide = fancybox.getSlide();
+            currentIndices.set(gallery.id, slide.index);
           });
         }
       });
