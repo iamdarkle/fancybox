@@ -35,6 +35,36 @@ app.initializers.add('darkle/fancybox', () => {
       }
     });
 
+    const fancyboxOptions = {
+      Carousel: {
+        infinite: false,
+      },
+      Toolbar: {
+        display: {
+          left: ["infobar"],
+          middle: ["rotateCCW","rotateCW","flipX","flipY"],
+          right: ["slideshow", "fullscreen", "close"],
+        },
+      },
+      Images: {
+        initialSize: 'fit',
+      },
+      on: {
+        "Carousel.ready Carousel.change": (fancybox) => {
+          const slide = fancybox.getSlide();
+          const carouselEl = slide.triggerEl.closest('.fancybox-gallery');
+          if (carouselEl) {
+            const carousel = carousels.get(carouselEl.id);
+            if (carousel) {
+              // Correctly align the slide index
+              carousel.slideTo(slide.index, { friction: 0 });
+            }
+          }
+        },
+      },
+      dragToClose: true,
+    };
+
     postBody.querySelectorAll('a[data-fancybox]').forEach(link => {
       let isDragging = false;
       let startX, startY;
@@ -59,23 +89,21 @@ app.initializers.add('darkle/fancybox', () => {
           const index = Array.from(group).indexOf(link);
 
           const fancyboxInstance = Fancybox.fromNodes(Array.from(group), {
-            Carousel: {
-              infinite: false,
-              Sync: {
-                target: carousels.get(gallery.id), // Set the sync target to the current gallery carousel
-              },
-            },
-            Toolbar: {
-              display: {
-                left: [],
-                middle: [],
-                right: ["slideshow", "fullscreen", "close"],
-              },
-            },
-            Images: {
-              initialSize: 'fit',
-            },
-            dragToClose: false,
+            ...fancyboxOptions,
+            startIndex: index,
+          });
+
+          // Sync slide changes between Carousel and Fancybox
+          fancyboxInstance.on('Carousel.ready Carousel.change', (fancybox) => {
+            const slide = fancybox.getSlide();
+            const carouselEl = slide.triggerEl.closest('.fancybox-gallery');
+            if (carouselEl) {
+              const carousel = carousels.get(carouselEl.id);
+              if (carousel) {
+                // Ensure indices are correctly aligned
+                carousel.slideTo(slide.index, { friction: 0 });
+              }
+            }
           });
         }
       });

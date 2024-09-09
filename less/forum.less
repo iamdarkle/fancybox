@@ -3,7 +3,11 @@
 @import (inline) "panzoom.css";
 @import (inline) "panzoom.controls.css";
 
-.fancybox-gallery{
+.fancybox-gallery, a[data-fancybox="single"] > img {
     border: 1px solid #e8ecf3;
     border-radius: 4px;
+}
+
+a[data-fancybox="single"] {
+    border-bottom: none!important;
 }
