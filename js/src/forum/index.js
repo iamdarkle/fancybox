@@ -44,7 +44,8 @@ app.initializers.add('darkle/fancybox', () => {
           initialSize: 'fit',
         },
         on: {
-          done: (fancybox, slide) => {
+          init: (fancybox) => {
+            const slide = fancybox.getSlide();
             const carouselEl = slide.triggerEl.closest('.fancybox-gallery');
             if (carouselEl) {
               const carousel = carousels.get(carouselEl.id);
@@ -60,6 +61,16 @@ app.initializers.add('darkle/fancybox', () => {
               const carousel = carousels.get(carouselEl.id);
               if (carousel) {
                 carousel.slideTo(slideIndex, { friction: 0 });
+              }
+            }
+          },
+          destroy: (fancybox) => {
+            const lastSlide = fancybox.getSlide();
+            const carouselEl = lastSlide.triggerEl.closest('.fancybox-gallery');
+            if (carouselEl) {
+              const carousel = carousels.get(carouselEl.id);
+              if (carousel) {
+                carousel.slideTo(lastSlide.index, { friction: 0 });
               }
             }
           },
@@ -105,6 +116,19 @@ app.initializers.add('darkle/fancybox', () => {
                 startIndex: index,
               }
             );
+          }
+        });
+      });
+
+      // Sync carousels with Fancybox
+      carousels.forEach((carousel, id) => {
+        carousel.on('change', (carousel) => {
+          const fancybox = Fancybox.getInstance();
+          if (fancybox) {
+            const currentSlide = fancybox.getSlide();
+            if (currentSlide && currentSlide.triggerEl.closest('.fancybox-gallery').id === id) {
+              fancybox.setPage(carousel.page);
+            }
           }
         });
       });
