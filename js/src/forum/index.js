@@ -18,7 +18,7 @@ app.initializers.add('darkle/fancybox', () => {
   });
 
   CommentPost.prototype.initFancybox = function () {
-    const postBody = this.element.querySelector('.Post-body');
+    const postBody = this.element.querySelector('.Post-body1');
     if (!postBody) return;
 
     // Initialize Carousel for each gallery
