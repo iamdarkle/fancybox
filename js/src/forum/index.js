@@ -46,31 +46,37 @@ app.initializers.add('darkle/fancybox', () => {
         on: {
           init: (fancybox) => {
             const slide = fancybox.getSlide();
-            const carouselEl = slide.triggerEl.closest('.fancybox-gallery');
-            if (carouselEl) {
-              const carousel = carousels.get(carouselEl.id);
-              if (carousel) {
-                carousel.slideTo(slide.index, { friction: 0 });
+            if (slide && slide.triggerEl) {
+              const carouselEl = slide.triggerEl.closest('.fancybox-gallery');
+              if (carouselEl) {
+                const carousel = carousels.get(carouselEl.id);
+                if (carousel) {
+                  carousel.slideTo(slide.index, { friction: 0 });
+                }
               }
             }
           },
           "Carousel.change": (fancybox, carousel, slideIndex) => {
             const slide = fancybox.getSlide();
-            const carouselEl = slide.triggerEl.closest('.fancybox-gallery');
-            if (carouselEl) {
-              const carousel = carousels.get(carouselEl.id);
-              if (carousel) {
-                carousel.slideTo(slideIndex, { friction: 0 });
+            if (slide && slide.triggerEl) {
+              const carouselEl = slide.triggerEl.closest('.fancybox-gallery');
+              if (carouselEl) {
+                const carousel = carousels.get(carouselEl.id);
+                if (carousel) {
+                  carousel.slideTo(slideIndex, { friction: 0 });
+                }
               }
             }
           },
           destroy: (fancybox) => {
             const lastSlide = fancybox.getSlide();
-            const carouselEl = lastSlide.triggerEl.closest('.fancybox-gallery');
-            if (carouselEl) {
-              const carousel = carousels.get(carouselEl.id);
-              if (carousel) {
-                carousel.slideTo(lastSlide.index, { friction: 0 });
+            if (lastSlide && lastSlide.triggerEl) {
+              const carouselEl = lastSlide.triggerEl.closest('.fancybox-gallery');
+              if (carouselEl) {
+                const carousel = carousels.get(carouselEl.id);
+                if (carousel) {
+                  carousel.slideTo(lastSlide.index, { friction: 0 });
+                }
               }
             }
           },
@@ -109,6 +115,7 @@ app.initializers.add('darkle/fancybox', () => {
                   src: img.getAttribute('data-src') || img.src,
                   thumb: img.src,
                   type: 'image',
+                  triggerEl: el, // Add this line to set the triggerEl
                 };
               }),
               {
@@ -126,7 +133,7 @@ app.initializers.add('darkle/fancybox', () => {
           const fancybox = Fancybox.getInstance();
           if (fancybox) {
             const currentSlide = fancybox.getSlide();
-            if (currentSlide && currentSlide.triggerEl.closest('.fancybox-gallery').id === id) {
+            if (currentSlide && currentSlide.triggerEl && currentSlide.triggerEl.closest('.fancybox-gallery').id === id) {
               fancybox.setPage(carousel.page);
             }
           }
