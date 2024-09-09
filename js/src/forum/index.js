@@ -75,7 +75,10 @@ app.initializers.add('darkle/fancybox', () => {
               if (carouselEl) {
                 const carousel = carousels.get(carouselEl.id);
                 if (carousel) {
-                  carousel.slideTo(lastSlide.index, { friction: 0 });
+                  // Use setTimeout to delay the carousel slide
+                  setTimeout(() => {
+                    carousel.slideTo(lastSlide.index, { friction: 0 });
+                  }, 0);
                 }
               }
             }
@@ -108,6 +111,9 @@ app.initializers.add('darkle/fancybox', () => {
             const group = postBody.querySelectorAll(`a[data-fancybox="${groupName}"]`);
             const index = Array.from(group).indexOf(link);
             
+            // Store the current scroll position
+            const scrollPosition = window.pageYOffset;
+
             Fancybox.show(
               Array.from(group).map(el => {
                 const img = el.querySelector('img');
@@ -115,12 +121,24 @@ app.initializers.add('darkle/fancybox', () => {
                   src: img.getAttribute('data-src') || img.src,
                   thumb: img.src,
                   type: 'image',
-                  triggerEl: el, // Add this line to set the triggerEl
+                  triggerEl: el,
                 };
               }),
               {
                 ...fancyboxOptions,
                 startIndex: index,
+                on: {
+                  ...fancyboxOptions.on,
+                  destroy: (fancybox) => {
+                    if (fancyboxOptions.on.destroy) {
+                      fancyboxOptions.on.destroy(fancybox);
+                    }
+                    // Restore the scroll position after a short delay
+                    setTimeout(() => {
+                      window.scrollTo(0, scrollPosition);
+                    }, 0);
+                  },
+                },
               }
             );
           }
