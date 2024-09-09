@@ -31,8 +31,8 @@ app.initializers.add('darkle/fancybox', () => {
           infinite: false,
           dragFree: false,
           Navigation: {
-            nextTpl: "Next page",
-            prevTpl: "Previous page",
+            nextTpl: "<i class='fa-solid fa-angle-right'></i>",
+            prevTpl: "<i class='fa-solid fa-angle-left'></i>",
           },
         });
         carousels.set(gallery.id, carousel);
