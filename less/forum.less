@@ -3,11 +3,16 @@
 @import (inline) "panzoom.css";
 @import (inline) "panzoom.controls.css";
 
+.f-carousel {
+    --f-button-width: 36px;
+    --f-button-height: 36px;
+}
+
 .fancybox-gallery, a[data-fancybox="single"] > img {
     border: 1px solid #e8ecf3;
     border-radius: 4px;
 }
 
-a[data-fancybox="single"] {
-    border-bottom: none!important;
+a[data-fancybox="single"], a[data-fancybox="gallery"] {
+    border-bottom: none !important;
 }

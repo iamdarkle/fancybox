@@ -30,6 +30,10 @@ app.initializers.add('darkle/fancybox', () => {
           Dots: false,
           infinite: false,
           dragFree: false,
+          Navigation: {
+            nextTpl: "Next page",
+            prevTpl: "Previous page",
+          },
         });
         carousels.set(gallery.id, carousel);
       }
