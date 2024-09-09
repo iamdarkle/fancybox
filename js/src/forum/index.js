@@ -35,7 +35,6 @@ app.initializers.add('darkle/fancybox', () => {
       }
     });
 
-    // Setup Fancybox for all images
     const fancyboxOptions = {
       Carousel: {
         infinite: false,
@@ -74,7 +73,6 @@ app.initializers.add('darkle/fancybox', () => {
       dragToClose: false,
     };
 
-    // Handle clicks on Fancybox-enabled links
     postBody.querySelectorAll('a[data-fancybox]').forEach(link => {
       let isDragging = false;
       let startX, startY;
@@ -97,10 +95,22 @@ app.initializers.add('darkle/fancybox', () => {
           const groupName = link.getAttribute('data-fancybox');
           const group = postBody.querySelectorAll(`a[data-fancybox="${groupName}"]`);
           const index = Array.from(group).indexOf(link);
-          
-          Fancybox.fromNodes(Array.from(group), {
+
+          const fancyboxInstance = Fancybox.fromNodes(Array.from(group), {
             ...fancyboxOptions,
             startIndex: index,
+          });
+
+          // Sync slide changes between Carousel and Fancybox
+          fancyboxInstance.Carousel.on('change', (carousel, slide) => {
+            const currentSlideIndex = slide.index;
+            const carouselEl = slide.triggerEl.closest('.fancybox-gallery');
+            if (carouselEl) {
+              const carousel = carousels.get(carouselEl.id);
+              if (carousel) {
+                carousel.slideTo(currentSlideIndex, { friction: 0 });
+              }
+            }
           });
         }
       });
