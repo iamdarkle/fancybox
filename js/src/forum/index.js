@@ -13,6 +13,10 @@ app.initializers.add('darkle/fancybox', () => {
     this.initFancybox();
   });
 
+  extend(CommentPost.prototype, 'onupdate', function () {
+    this.initFancybox();
+  });
+
   CommentPost.prototype.initFancybox = function () {
     const postBody = this.element.querySelector('.Post-body');
     if (!postBody) return;
