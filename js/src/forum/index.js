@@ -92,10 +92,14 @@ app.initializers.add('darkle/fancybox', () => {
             const index = Array.from(group).indexOf(link);
             
             Fancybox.show(
-              Array.from(group).map(el => ({
-                src: el.href,
-                type: 'image',
-              })),
+              Array.from(group).map(el => {
+                const img = el.querySelector('img');
+                return {
+                  src: img.getAttribute('data-src') || img.src,
+                  thumb: img.src,
+                  type: 'image',
+                };
+              }),
               {
                 ...fancyboxOptions,
                 startIndex: index,
