@@ -23,8 +23,6 @@ app.initializers.add('darkle/fancybox', () => {
 
     // Initialize Carousel for each gallery
     const carousels = new Map();
-    const currentIndices = new Map(); // Map to store current indices for each gallery
-
     postBody.querySelectorAll('.fancybox-gallery').forEach((gallery, index) => {
       if (!gallery.id) {
         gallery.id = `gallery-${index}`;
@@ -34,7 +32,6 @@ app.initializers.add('darkle/fancybox', () => {
           dragFree: false,
         });
         carousels.set(gallery.id, carousel);
-        currentIndices.set(gallery.id, 0); // Initialize current index
       }
     });
 
@@ -61,17 +58,11 @@ app.initializers.add('darkle/fancybox', () => {
           const group = postBody.querySelectorAll(`a[data-fancybox="${groupName}"]`);
           const index = Array.from(group).indexOf(link);
 
-          const gallery = link.closest('.fancybox-gallery');
-          if (!gallery) return;
-
-          // Use the stored current index for this gallery
-          const startIndex = currentIndices.get(gallery.id) || 0;
-
           const fancyboxInstance = Fancybox.fromNodes(Array.from(group), {
             Carousel: {
               infinite: false,
               Sync: {
-                target: carousels.get(gallery.id),
+                target: carousels.get(gallery.id), // Set the sync target to the current gallery carousel
               },
             },
             Toolbar: {
@@ -85,13 +76,6 @@ app.initializers.add('darkle/fancybox', () => {
               initialSize: 'fit',
             },
             dragToClose: false,
-            startIndex: startIndex,
-          });
-
-          // Update current index on slide change
-          fancyboxInstance.on('Carousel.change', (fancybox) => {
-            const slide = fancybox.getSlide();
-            currentIndices.set(gallery.id, slide.index);
           });
         }
       });
