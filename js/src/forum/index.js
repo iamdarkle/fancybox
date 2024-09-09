@@ -58,11 +58,15 @@ app.initializers.add('darkle/fancybox', () => {
           const group = postBody.querySelectorAll(`a[data-fancybox="${groupName}"]`);
           const index = Array.from(group).indexOf(link);
 
+          // Find the gallery element this link belongs to
+          const gallery = link.closest('.fancybox-gallery');
+          if (!gallery) return; // Ensure gallery is found
+
           const fancyboxInstance = Fancybox.fromNodes(Array.from(group), {
             Carousel: {
               infinite: false,
               Sync: {
-                target: carousels.get(gallery.id), // Set the sync target to the current gallery carousel
+                target: carousels.get(gallery.id), // Use the gallery variable here
               },
             },
             Toolbar: {
@@ -76,6 +80,7 @@ app.initializers.add('darkle/fancybox', () => {
               initialSize: 'fit',
             },
             dragToClose: false,
+            startIndex: index,
           });
         }
       });
