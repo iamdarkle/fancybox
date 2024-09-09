@@ -69,7 +69,7 @@ app.initializers.add('darkle/fancybox', () => {
           history.replaceState(null, '', fancybox.originalUrl);
         }
       },
-      dragToClose: false,
+      dragToClose: true,
       Hash: false,  // Disable the default hash behavior
     };
 
