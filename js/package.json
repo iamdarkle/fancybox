@@ -24,6 +24,6 @@
     "build": "npm run build:css && webpack --mode production",
     "format": "prettier --write src",
     "format-check": "prettier --check src",
-    "build:css": "cp ./node_modules/@fancyapps/ui/dist/fancybox/fancybox.css ../less/fancybox.css && cp ./node_modules/@fancyapps/ui/dist/carousel/carousel.css ../less/carousel.css"
+    "build:css": "cp ./node_modules/@fancyapps/ui/dist/fancybox/fancybox.css ../less/fancybox.css && cp ./node_modules/@fancyapps/ui/dist/carousel/carousel.css ../less/carousel.css && cp ./node_modules/@fancyapps/ui/dist/panzoom/panzoom.css ../less/panzoom.css"
   }
 }
