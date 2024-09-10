@@ -1,4 +1,4 @@
-name: Fancybox
+name: Fancybox PHP
 
 on: [workflow_dispatch, push, pull_request]
 
