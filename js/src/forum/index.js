@@ -56,7 +56,6 @@ app.initializers.add('darkle/fancybox', () => {
           if (carouselEl) {
             const carousel = carousels.get(carouselEl.id);
             if (carousel) {
-              // Correctly align the slide index
               carousel.slideTo(slide.index, { friction: 0 });
             }
           }
@@ -101,7 +100,6 @@ app.initializers.add('darkle/fancybox', () => {
             if (carouselEl) {
               const carousel = carousels.get(carouselEl.id);
               if (carousel) {
-                // Ensure indices are correctly aligned
                 carousel.slideTo(slide.index, { friction: 0 });
               }
             }
