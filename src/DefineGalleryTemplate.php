@@ -21,16 +21,30 @@ class DefineGalleryTemplate
                 <xsl:choose>
                     <xsl:when test="parent::FANCYBOX-GALLERY-ITEM">
                         <a data-fancybox="gallery" href="{@src}">
-                            <img src="{@src}" alt="{@alt}" loading="lazy">
-                                <xsl:copy-of select="@*"/>
-                            </img>
+                            <img src="{@src}" alt="{@alt}" loading="lazy"/>
                         </a>
                     </xsl:when>
                     <xsl:otherwise>
                         <a data-fancybox="single" href="{@src}">
-                            <img src="{@src}" alt="{@alt}" loading="lazy">
-                                <xsl:copy-of select="@*"/>
-                            </img>
+                            <img src="{@src}" alt="{@alt}" loading="lazy"/>
+                        </a>
+                    </xsl:otherwise>
+                </xsl:choose>
+            XML;
+        }
+
+        if ($config->tags->exists('UPL-IMAGE-PREVIEW')) {
+            $tag = $config->tags->get('UPL-IMAGE-PREVIEW');
+            $tag->template = <<<XML
+                <xsl:choose>
+                    <xsl:when test="parent::FANCYBOX-GALLERY-ITEM">
+                        <a data-fancybox="gallery" href="{@url}">
+                            <img src="{@url}" alt="" loading="lazy"/>
+                        </a>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <a data-fancybox="single" href="{@url}">
+                            <img src="{@url}" alt="" loading="lazy"/>
                         </a>
                     </xsl:otherwise>
                 </xsl:choose>
