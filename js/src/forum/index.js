@@ -42,17 +42,12 @@ app.initializers.add('darkle/fancybox', () => {
       Toolbar: {
         display: {
           left: ["infobar"],
-          middle: ["zoom", "rotateCCW", "rotateCW", "flipX", "flipY"],
+          middle: ["zoomIn", "zoomOut", "rotateCCW", "rotateCW", "flipX", "flipY"],
           right: ["slideshow", "fullscreen", "close"],
         },
       },
       Images: {
         initialSize: 'fit',
-      },
-      Panzoom: {
-        zoom: true,
-        pinchToZoom: true, // Allow pinch-to-zoom on touch devices
-        wheel: true, // Allow zooming with mouse wheel
       },
       on: {
         "Carousel.ready Carousel.change": (fancybox) => {
