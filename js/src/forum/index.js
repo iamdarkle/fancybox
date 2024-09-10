@@ -42,7 +42,7 @@ app.initializers.add('darkle/fancybox', () => {
       Toolbar: {
         display: {
           left: ["infobar"],
-          middle: ["zoomIn", "zoomOut", "rotateCCW", "rotateCW", "flipX", "flipY"],
+          middle: ["rotateCCW", "rotateCW", "flipX", "flipY"],
           right: ["slideshow", "fullscreen", "close"],
         },
       },
