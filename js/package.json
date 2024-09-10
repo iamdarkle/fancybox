@@ -4,21 +4,23 @@
   "private": true,
   "prettier": "@flarum/prettier-config",
   "dependencies": {
-    "@fancyapps/ui": "^4.0.27",
+    "@fancyapps/ui": "^5.0.36",
     "@flarum/prettier-config": "^1.0.0",
-    "flarum-tsconfig": "^1.0.2",
-    "flarum-webpack-config": "^2.0.0",
-    "webpack": "^5.73.0",
-    "webpack-cli": "^4.10.0"
+    "flarum-webpack-config": "^2.0.2",
+    "webpack": "^5.94.0",
+    "webpack-cli": "^5.1.4"
   },
   "devDependencies": {
-    "prettier": "^2.7.1"
+    "css-loader": "^7.1.2",
+    "prettier": "^3.3.3",
+    "style-loader": "^4.0.0",
+    "webpack-merge": "^6.0.1"
   },
   "scripts": {
     "dev": "npm run build:css && webpack --mode development --watch",
     "build": "npm run build:css && webpack --mode production",
     "format": "prettier --write src",
     "format-check": "prettier --check src",
-    "build:css": "cp ./node_modules/@fancyapps/ui/dist/fancybox.css ../less/fancybox.css && cp ./node_modules/@fancyapps/ui/dist/carousel.css ../less/carousel.css && cp ./node_modules/@fancyapps/ui/dist/panzoom.css ../less/panzoom.css && cp ./node_modules/@fancyapps/ui/dist/panzoom.controls.css ../less/panzoom.controls.css"
+    "build:css": "cp ./node_modules/@fancyapps/ui/dist/fancybox/fancybox.css ../less/fancybox.css && cp ./node_modules/@fancyapps/ui/dist/carousel/carousel.css ../less/carousel.css"
   }
 }

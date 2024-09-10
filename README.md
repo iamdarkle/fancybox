@@ -1,48 +1,41 @@
-# Fancybox
-![](https://flarum-badge-api.davwheat.dev/v1/compat-latest/darkle/fancybox) [![Total Downloads](http://poser.pugx.org/darkle/fancybox/downloads)](https://packagist.org/packages/darkle/fancybox) [![Latest Stable Version](http://poser.pugx.org/darkle/fancybox/v)](https://packagist.org/packages/darkle/fancybox) [![License](http://poser.pugx.org/darkle/fancybox/license)](https://packagist.org/packages/darkle/fancybox)
+# Fancybox v5
+[![Latest Stable Version](http://poser.pugx.org/darkle/fancybox/v)](https://packagist.org/packages/darkle/fancybox) [![Total Downloads](http://poser.pugx.org/darkle/fancybox/downloads)](https://packagist.org/packages/darkle/fancybox)  [![License](http://poser.pugx.org/darkle/fancybox/license)](https://packagist.org/packages/darkle/fancybox)
 
-![Screenshot](https://user-images.githubusercontent.com/15818451/145828827-e272f2e2-3781-4eea-9e4a-3e5aa8077920.gif)
+![Screenshot](https://github.com/iamdarkle/assets/blob/main/flarum/fancybox/msedge_RSzIbACInH.gif?raw=true)
+---
 
-## Getting Started
-
+### Getting Started
 In order to install the extension, you will need to follow these simple steps.
 
-### 🔃 Cross-compatibility
-- [`reflar/recache`](https://extiverse.com/extension/reflar/recache) ✅
-- [`fof/reactions`](https://github.com/FriendsOfFlarum/reactions) ✅
-- [`datlechin/flarum-link-preview`](https://github.com/datlechin/flarum-link-preview) ✅
-- [`the-turk/flarum-flamoji`](https://github.com/the-turk/flarum-flamoji) ✅
-- [`datitisev/flarum-post-galleries`](https://github.com/datitisev/flarum-post-galleries) ⌛(https://github.com/iamdarkle/fancybox/issues/6)
-- [`v17development/flarum-support`](https://extiverse.com/extension/v17development/flarum-support) ⌛(https://github.com/iamdarkle/fancybox/issues/5)
+#### ⚠️ Minimum Requirements
 
-### ⚠️ Minimum Requirements
+- [flarum/core](https://flarum.org/) 1.2.0
 
-* <a href="https://flarum.org">flarum/core</a> 1.2.0
+#### 📥 Installation
 
-### 📥 Installation
-   ```
-   composer require darkle/fancybox
-   ```
+```
+composer require darkle/fancybox
+```
+#### ♻ Updating
 
-### ♻ Updating
-   ```
-   composer update darkle/fancybox
-   php flarum cache:clear
-   ```
+```
+composer require darkle/fancybox
+php flarum cache:clear
+```
+### License
 
-## License
+Fancybox v5 is available under the Fancyapps UI license for all applications. You can freely test Fancyapps UI components in your project's development and staging environments to see if they meet your needs. If they do, you'll need to purchase a license and agree to the "License Agreement."
 
-Fancybox v4 is licensed under the Fancyapps UI license for all applications. You can test Fancyapps UI components for free in your project in a development and staging environment to see if it fits your needs, then you must purchase a license from [here](https://fancyapps.com/pricing).
+You can explore the license details at fancyapps.com/license and find purchase options at fancyapps.com/pricing.
 
-* darkle/fancybox - [MIT License](https://github.com/iamdarkle/fancybox/blob/main/LICENSE)
-* Fancybox v4 (You need a Fancybox license for both non-commercial and commercial use) - [Fancyapps UI license](https://fancyapps.com/license)
+- darkle/fancybox - [MIT License](https://github.com/iamdarkle/fancybox/blob/main/LICENSE)
+- Fancybox v5 (You need a Fancybox license for both non-commercial and commercial use) - [Fancyapps UI license](https://fancyapps.com/license)
 
-## Useful Links
+### Useful Links
 
-* [Fancyapps Web](https://fancyapps.com/)
-* [Fancyapps GitHub](https://github.com/fancyapps/ui)
-* [Flarum](https://flarum.org)
-* [Flarum Community](https://discuss.flarum.org/d/29102-fancybox)
-* [GitHub](https://github.com/iamdarkle/fancybox)
-* [Packagist](https://packagist.org/packages/darkle/fancybox)
-* [Composer](https://getcomposer.org/)
+- [Fancyapps Web](https://fancyapps.com/)
+- [Fancyapps GitHub](https://github.com/fancyapps/ui)
+- [Flarum](https://flarum.org/)
+- [GitHub](https://github.com/iamdarkle/fancybox)
+- [Composer](https://getcomposer.org/)
+- [Packagist](https://packagist.org/)
