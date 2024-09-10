@@ -56,21 +56,14 @@ app.initializers.add('darkle/fancybox', () => {
           if (carouselEl) {
             const carousel = carousels.get(carouselEl.id);
             if (carousel) {
+              // Correctly align the slide index
               carousel.slideTo(slide.index, { friction: 0 });
             }
           }
         },
-        "init": (fancybox) => {
-          // Store the original URL
-          fancybox.originalUrl = window.location.href;
-        },
-        "destroy": (fancybox) => {
-          // Restore the original URL without triggering a page reload
-          history.replaceState(null, '', fancybox.originalUrl);
-        }
       },
       dragToClose: true,
-      Hash: false,  // Disable the default hash behavior
+      Hash: false,
     };
 
     postBody.querySelectorAll('a[data-fancybox]').forEach(link => {
@@ -108,6 +101,7 @@ app.initializers.add('darkle/fancybox', () => {
             if (carouselEl) {
               const carousel = carousels.get(carouselEl.id);
               if (carousel) {
+                // Ensure indices are correctly aligned
                 carousel.slideTo(slide.index, { friction: 0 });
               }
             }
