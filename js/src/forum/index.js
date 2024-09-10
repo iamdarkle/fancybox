@@ -41,16 +41,16 @@ app.initializers.add('darkle/fancybox', () => {
       },
       Toolbar: {
         display: {
-          left: ["infobar"],
-          middle: ["rotateCCW", "rotateCW", "flipX", "flipY"],
-          right: ["slideshow", "fullscreen", "close"],
+          left: ['infobar'],
+          middle: ['rotateCCW', 'rotateCW', 'flipX', 'flipY'],
+          right: ['slideshow', 'fullscreen', 'close'],
         },
       },
       Images: {
         initialSize: 'fit',
       },
       on: {
-        "Carousel.ready Carousel.change": (fancybox) => {
+        'Carousel.ready Carousel.change': (fancybox) => {
           const slide = fancybox.getSlide();
           const carouselEl = slide.triggerEl.closest('.fancybox-gallery');
           if (carouselEl) {
@@ -65,7 +65,7 @@ app.initializers.add('darkle/fancybox', () => {
       Hash: false,
     };
 
-    postBody.querySelectorAll('a[data-fancybox]').forEach(link => {
+    postBody.querySelectorAll('a[data-fancybox]').forEach((link) => {
       let isDragging = false;
       let startX, startY;
 
