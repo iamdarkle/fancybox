@@ -91,6 +91,7 @@ app.initializers.add('darkle/fancybox', () => {
           const groupName = link.getAttribute('data-fancybox');
           const group = postBody.querySelectorAll(`a[data-fancybox="${groupName}"]`);
           const index = Array.from(group).indexOf(link);
+
           const fancyboxInstance = Fancybox.fromNodes(Array.from(group), {
             ...fancyboxOptions,
             startIndex: index,
