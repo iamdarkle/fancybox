@@ -21,7 +21,7 @@
         "forum": "https://discuss.flarum.org/d/29102"
     },
     "require": {
-        "flarum/core": "^1.2.0"
+        "flarum/core": "^1.8.0"
     },
     "autoload": {
         "psr-4": {
@@ -35,7 +35,7 @@
             "icon": {
                 "name": "fas fa-images",
                 "backgroundColor": "#00c8b0",
-                "color": "#fff"
+                "color": "#ffffff"
             }
         },
         "flarum-cli": {
