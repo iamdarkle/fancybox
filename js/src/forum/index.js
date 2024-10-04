@@ -18,6 +18,10 @@ app.initializers.add('darkle/fancybox', () => {
   });
 
   CommentPost.prototype.initFancybox = function () {
+
+    if (this.fancyboxInitialized) return;
+    this.fancyboxInitialized = true;
+
     const postBody = this.element.querySelector('.Post-body');
     if (!postBody) return;
 
@@ -87,7 +91,6 @@ app.initializers.add('darkle/fancybox', () => {
           const groupName = link.getAttribute('data-fancybox');
           const group = postBody.querySelectorAll(`a[data-fancybox="${groupName}"]`);
           const index = Array.from(group).indexOf(link);
-
           const fancyboxInstance = Fancybox.fromNodes(Array.from(group), {
             ...fancyboxOptions,
             startIndex: index,
