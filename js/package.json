@@ -11,16 +11,15 @@
     "webpack-cli": "^5.1.4"
   },
   "devDependencies": {
-    "css-loader": "^7.1.2",
+    "copy-webpack-plugin": "^12.0.2",
+    "flarum-tsconfig": "^1.0.3",
     "prettier": "^3.3.3",
-    "style-loader": "^4.0.0",
     "webpack-merge": "^6.0.1"
   },
   "scripts": {
-    "dev": "npm run build:css && webpack --mode development --watch",
-    "build": "npm run build:css && webpack --mode production",
+    "dev": "webpack --mode development --watch",
+    "build": "webpack --mode production",
     "format": "prettier --write src",
-    "format-check": "prettier --check src",
-    "build:css": "cp ./node_modules/@fancyapps/ui/dist/fancybox/fancybox.css ../less/fancybox.css && cp ./node_modules/@fancyapps/ui/dist/carousel/carousel.css ../less/carousel.css"
+    "format-check": "prettier --check src"
   }
 }
