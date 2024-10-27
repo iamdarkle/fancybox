@@ -14,25 +14,13 @@ app.initializers.add('darkle/fancybox', () => {
     postBody.classList.add("Post-body--fancybox");
 
     // Initialize Carousel for each gallery
-    const carousels: Record<string, Carousel> = {};
-    postBody.querySelectorAll('.fancybox-gallery').forEach((gallery, index) => {
-      if (gallery.getAttribute("data-gallery-id")) return;
-      const idx = index.toString();
-      gallery.setAttribute("data-gallery-id", idx);
-      carousels[idx] = new Carousel(gallery as HTMLElement, {
+    postBody.querySelectorAll('.fancybox-gallery').forEach((gallery) => {
+      new Carousel(gallery as HTMLElement, {
         Dots: false,
         infinite: false,
         dragFree: false,
       });
     });
-
-    const syncSlide = (fancybox: Fancybox) => {
-      const slide = fancybox.getSlide();
-      if (!slide) return;
-      const carouselEl = slide.triggerEl?.closest('.fancybox-gallery');
-      if (!carouselEl) return;
-      carousels[carouselEl.id]?.slideTo(slide.index, { friction: 0 });
-    };
 
     (postBody.querySelectorAll('a[data-fancybox]') as unknown as HTMLElement[]).forEach((link) => {
       let isDragging = false;
@@ -56,29 +44,26 @@ app.initializers.add('darkle/fancybox', () => {
         const groupName = link.getAttribute('data-fancybox');
         const carouselEl = link.closest('.fancybox-gallery');
         const group = (carouselEl || postBody).querySelectorAll(`a[data-fancybox="${groupName}"]`) as unknown as HTMLElement[];
-        const index = Array.from(group).indexOf(link);
+        const startIndex = Array.from(group).indexOf(link);
 
-        const fancyboxInstance = Fancybox.fromNodes(Array.from(group), {
+        Fancybox.fromNodes(Array.from(group), {
           Carousel: {
             infinite: false,
           },
           Toolbar: {
             display: {
               left: ['infobar'],
-                  middle: ['rotateCCW', 'rotateCW', 'flipX', 'flipY'],
-                  right: ['slideshow', 'fullscreen', 'close'],
+              middle: ['rotateCCW', 'rotateCW', 'flipX', 'flipY'],
+              right: ['slideshow', 'fullscreen', 'close'],
             },
           },
           Images: {
             initialSize: 'fit' as 'fit',
           },
           dragToClose: true,
-              Hash: false,
-          startIndex: index,
+          Hash: false,
+          startIndex,
         });
-
-        // Sync slide changes between Carousel and Fancybox
-        fancyboxInstance.on(['Carousel.ready', 'Carousel.change'], syncSlide);
       });
     });
   });
