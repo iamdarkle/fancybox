@@ -9,12 +9,11 @@ app.initializers.add('darkle/fancybox', () => {
     if (this.isEditing()) return;
 
     const postBody = this.element.querySelector('.Post-body');
-    if (!postBody || postBody.classList.contains("Post-body--fancybox")) return;
-
-    postBody.classList.add("Post-body--fancybox");
+    if (!postBody) return;
 
     // Initialize Carousel for each gallery
-    postBody.querySelectorAll('.fancybox-gallery').forEach((gallery) => {
+    postBody.querySelectorAll('.fancybox-gallery:not(.fancybox-ready)').forEach((gallery) => {
+      gallery.classList.add('fancybox-ready');
       new Carousel(gallery as HTMLElement, {
         Dots: false,
         infinite: false,
@@ -22,7 +21,8 @@ app.initializers.add('darkle/fancybox', () => {
       });
     });
 
-    (postBody.querySelectorAll('a[data-fancybox]') as unknown as HTMLElement[]).forEach((link) => {
+    (postBody.querySelectorAll('a[data-fancybox]:not(.fancybox-ready)') as unknown as HTMLElement[]).forEach((link) => {
+      link.classList.add('fancybox-ready');
       let isDragging = false;
       let startX: number, startY: number;
 
