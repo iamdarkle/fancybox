@@ -19,6 +19,7 @@ app.initializers.add('darkle/fancybox', () => {
             Dots: false,
             infinite: false,
             dragFree: false,
+            preload: 0,
           });
         });
 
@@ -51,6 +52,7 @@ app.initializers.add('darkle/fancybox', () => {
                 Fancybox.fromNodes(group, {
                   Carousel: {
                     infinite: false,
+                    preload: 0,
                   },
                   Toolbar: {
                     display: {

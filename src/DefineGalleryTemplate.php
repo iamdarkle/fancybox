@@ -21,7 +21,7 @@ class DefineGalleryTemplate
                 <xsl:choose>
                     <xsl:when test="parent::FANCYBOX-GALLERY-ITEM">
                         <a data-fancybox="gallery" href="{@src}">
-                            <img src="{@src}" alt="{@alt}" loading="lazy"/>
+                            <img data-lazy-src="{@src}" alt="{@alt}" loading="lazy"/>
                         </a>
                     </xsl:when>
                     <xsl:otherwise>
@@ -39,7 +39,7 @@ class DefineGalleryTemplate
                 <xsl:choose>
                     <xsl:when test="parent::FANCYBOX-GALLERY-ITEM">
                         <a data-fancybox="gallery" href="{@url}">
-                            <img src="{@url}" alt="" loading="lazy"/>
+                            <img data-lazy-src="{@url}" alt="" loading="lazy"/>
                         </a>
                     </xsl:when>
                     <xsl:otherwise>
